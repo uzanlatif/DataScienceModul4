@@ -1,0 +1,136 @@
+---
+title: "Visual Plot"
+author: "Abdul Latif Fauzan"
+date: "3/10/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+## 1 Gunakan operator aksesor ($) untuk mengakses variabel populasi dan menyimpannya pada objek baru “pop”. Kemudian gunakan fungsi sort untuk mengurutkan variabel “pop”. Pada langkah terakhir, gunakan operator ([) untuk menampilkan nilai populasi terkecil.
+```{r 1, include=TRUE}
+
+library(dslabs)
+data(murders)
+
+pop = murders$population
+asc = sort(pop)
+asc [1]
+min(pop)
+
+```
+
+## 2 Tampilkan indeks dari data yang memiliki nilai populasi terkecil.Petunjuk: gunakan fungsi order.
+```{r 2, include=TRUE}
+
+library(dslabs)
+data(murders)
+
+x=murders$population
+index=order(x)
+index[1]
+
+```
+
+## 3 Dengan fungsi which.min, Tulis satu baris kode yang dapat menampilkan hasil yang sama dengan langkah diatas.
+```{r 3, include=TRUE}
+
+library(dslabs)
+data(murders)
+
+which.min(murders$population)
+
+```
+## 4 Tampilkan nama negara yang memiliki populasi terkecil.
+```{r 4, include=TRUE}
+
+library(dslabs)
+data(murders)
+
+q=murders$population
+p=order(q)
+m=p[1]
+
+s=murders$state
+
+s[m]
+
+
+```
+
+## 5 Gunakan fungsi rank untuk menentukan peringkat populasi dari tiap negara bagian, dimulai dari nilai terkecil hingga terbesar. Simpan hasil pemeringkatan di objek baru “ranks”, lalu buat data frame baru yang berisi nama negara bagian dan peringkatnya dengan nama “my_df”.
+
+```{r 5, include=TRUE}
+
+temp <- c(35, 88, 42, 84, 81, 30)
+city <- c("Beijing", "Lagos", "Paris", "Rio de Janeiro",
+          "San Juan", "Toronto")
+city_temps <- data.frame(name = city, temperature = temp)
+
+rank(city_temps$temperature)
+my_df=city_temps[order(rank(city_temps$temperature)),]
+my_df
+
+
+```
+
+## 6 Ulangi langkah sebelumnya, namun kali ini urutkan my_df dengan fungsi order agar data yang ditampilkan merupakan data yang telah diurutkan dari populasi yang paling tidak padat hingga ke yang terpadat. Petunjuk: buat objek “ind” yang akan menyimpan indeks yang diperlukan dalam mengurutkan data populasi
+```{r 6, include=TRUE}
+
+library(dslabs)
+data(murders)
+
+ind=rank(murders$populations)
+my_Df=murders[order(rank(murders$population)),]
+my_Df
+
+```
+## 7 Untuk keperluan analisis data, akan dibuat plot yang memvisualisasikan total pembunuhan Perlu diingat bahwa beberapa negara bagian memiliki populasi di bawah 5 juta, sehingga untuk mempermudah analisis, buat plot dalam skala log. Transformasi nilai variabel menggunakan transformasi log10,kemudian tampilkan plot-nya.
+
+```{r 7, include=TRUE}
+library(dslabs)
+data(murders)
+
+population_in_millions <- murders$population/10^6
+total_gun_murders <- murders$total
+
+ab=log10(population_in_millions)
+```
+
+
+```{r 72, echo=TRUE}
+plot(ab, total_gun_murders)
+```
+
+## 8 Buat histogram dari populasi negara bagian.
+
+```{r 8, include=TRUE}
+library(dslabs)
+data(murders)
+
+Popul=log10(murders$population)
+California = c(Popul, murders$population/murders$total)
+```
+
+
+```{r 82, echo=TRUE}
+hist(California)
+
+```
+
+## 9 Hasilkan boxplot dari populasi negara bagian berdasarkan wilayahnya.
+
+```{r 9, include=TRUE}
+library(dslabs)
+data(murders)
+
+murders$rate <- with(murders, total / population * 100000)
+
+```
+
+
+```{r 92, echo=TRUE}
+boxplot(rate~region, data = murders)
+
+```
+
